@@ -1,38 +1,20 @@
-import React,{Component} from 'react';
+import React from 'react';
 
-class StopWatch extends Component {
-  state = {}
-
-  constructor(props) {
-    super(props);
-    
-    this.interval = setInterval(()=>{
-      this.setState({now: new Date()})
-    },1000)
-  }
-
-  static getDerivedStateFromProps(props,state) {
-    return {
-      now: new Date()
-    }
-  }
-
-  shouldComponentUpdate(nextProps, nextState){
-    if (nextProps.clockMode !== this.props.clockMode) {
-      return true;
-    }  else if (Math.floor(nextState.now/1000) !== Math.floor(this.state.now/1000)) {
-      return true;
-    }
-    return false; 
-  }
-
-  render() {
-    return <span style={style}>{this.state.now.toLocaleTimeString('en-US',{ hour12: !this.props.clockMode })}</span>;
-  }
+function StopWatch ({counter}) {
+  const sec = counter % 60;
+  const min = ((counter - sec) / 60) % 60;
+  const hour = (counter - min * 60 - sec) / 3600;
+  return <div style={style}>
+    <span>{hour.toLocaleString('en',{minimumIntegerDigits: 2})}</span>
+    :
+    <span>{min.toLocaleString('en',{minimumIntegerDigits: 2})}</span>
+    :
+    <span>{sec.toLocaleString('en',{minimumIntegerDigits: 2})}</span>
+  </div>;
 }
 
 const style = {
-  color: 'red',
+  color: '#FFF',
   fontSize: 40,
   fontWeight: 'bold'
 };
